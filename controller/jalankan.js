@@ -22,11 +22,6 @@ const Jalankan = expressAsyncHandler(async (req, res, next) => {
 });
 
 /**
- * @type {puppeteer.Page[]}
- */
-const listPage = []
-
-/**
  * @type {ppt.Page}
  */
 var pg;
