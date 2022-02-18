@@ -54,7 +54,7 @@ waktu() {
 single() {
     case $1 in
     i) menu ;;
-    start) pm2 start controller/jalankan.js --watch --name "ytb" ;;
+    start) pm2 start controller/jalankan.js --name "ytb" ;;
     log) pm2 logs --name "ytb" ;;
     wk) waktu ;;
     push) push ;;
@@ -69,7 +69,7 @@ double() {
     server-ls) $login -t "cd /root/makuro/ytb && ls " ;;
     server-start) $login -t "cd /root/makuro/ytb && source ~/.nvm/nvm.sh && pm2 start controller/jalankan.js --name ytb" ;;
     server-status) $login -t "cd /root/makuro/ytb && source ~/.nvm/nvm.sh && pm2 status" ;;
-    server-restart) $login -t "cd /root/makuro/ytb && source ~/.nvm/nvm.sh && pm2 restart all --watch" ;;
+    server-restart) $login -t "cd /root/makuro/ytb && source ~/.nvm/nvm.sh && pm2 restart all " ;;
     server-log) $login -t "cd /root/makuro/ytb && source ~/.nvm/nvm.sh && pm2 logs" ;;
     server-stop) $login -t "cd /root/makuro/ytb && source ~/.nvm/nvm.sh && pm2 stop ytb" ;;
     server-delete) $login -t "cd /root/makuro/ytb && source ~/.nvm/nvm.sh && pm2 delete ytb" ;;

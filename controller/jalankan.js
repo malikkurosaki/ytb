@@ -92,15 +92,19 @@ async function mulai() {
 
         await page.waitForTimeout(5000);
         let [ditonton] = await page.$x('//span[contains(@class,"view-count")]');
-        let ton = await ditonton.getProperty('innerText');
-        console.log(await ton.jsonValue());
+        if (ditonton) {
+            let ton = await ditonton.getProperty('innerText');
+            console.log(await ton.jsonValue());
+        }else{
+            console.log("tonton gk ketemu")
+        }
 
         await page.waitForTimeout(40000);
         await browser.close();
         await mulai();
 
     } catch (error) {
-       console.log(error)
+        console.log(error)
     }
 
 }
