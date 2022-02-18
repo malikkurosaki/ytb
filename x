@@ -64,7 +64,7 @@ single() {
 
 double() {
     case "$1$2" in
-    local-start) nodemon server.js --ignore cookies.json ;;
+    local-start) nodemon controller/jalankan.js --ignore cookies.json ;;
     server-login) $login ;;
     server-ls) $login -t "cd /root/makuro/ytb && ls " ;;
     server-start) $login -t "cd /root/makuro/ytb && source ~/.nvm/nvm.sh && pm2 start controller/jalankan.js --name ytb" ;;

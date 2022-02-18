@@ -6,7 +6,11 @@ const fs = require('fs');
 const puppeteer = require('puppeteer-extra');
 const ppt = require('puppeteer');
 const StealthPlugin = require('puppeteer-extra-plugin-stealth');
+const { db } = require("./firebase");
+var capcon = require('capture-console')
+const resizeImg = require('resize-img');
 puppeteer.use(StealthPlugin());
+
 
 const Jalankan = expressAsyncHandler(async (req, res, next) => {
     try {
@@ -28,10 +32,11 @@ const listPage = []
 var pg;
 
 
-
+var listLog = []
 async function mulai() {
+    listLog = [];
     try {
-
+        log("coba membuka browser")
         // let proxy = await fetchOne();
         const browser = await puppeteer.launch({
             headless: true,
@@ -59,54 +64,116 @@ async function mulai() {
             }
         });
 
+        log("coba memasang kacamata")
         await browser.createIncognitoBrowserContext();
+        log("coba membuka halaman")
         /**@type {ppt.Page} */
         let page = (await browser.pages())[0];
         pg = page;
+        log("halaman didapatkan")
+        await jepret();
+
         try {
+            log("coba membaca cookies")
             const cookie = fs.readFileSync('cookies.json', 'utf8');
+            log("cookies berhasil dipasangkan")
             if (cookie) {
                 const deserializedCookies = JSON.parse(cookie);
                 await page.setCookie(...deserializedCookies);
                 console.log("set cookies");
+            }else{
+                log("cookies tidak didapatkan")
             }
         } catch (error) {
             console.log(error)
+            log("error memasang cookies "+ error)
         }
-
-        await page.setUserAgent(agents.random().data.userAgent);
 
         try {
-            await page.goto("https://www.youtube.com/watch?v=yb0uyxFLu3Y");
-            console.log("mulai");
-
+            log("coba memasang user agent")
+            await page.setUserAgent(agents.random().data.userAgent);
+            log("coba menuju target")
+            await page.goto("https://www.youtube.com/watch?v=yb0uyxFLu3Y", );
+            log("mulai menonton target")
         } catch (error) {
             await page.waitForTimeout(5000);
-            console.log(error)
+            log("error menuju target "+ error)
+
         }
 
-        const cookies = await page.cookies();
-        const cookieJson = JSON.stringify(cookies);
-        fs.writeFileSync('cookies.json', cookieJson);
-        console.log("cookies saved");
-
-        await page.waitForTimeout(5000);
-        let [ditonton] = await page.$x('//span[contains(@class,"view-count")]');
-        if (ditonton) {
-            let ton = await ditonton.getProperty('innerText');
-            console.log(await ton.jsonValue());
-        }else{
-            console.log("tonton gk ketemu")
+        try {
+            log("coba mendapatkan cookies")
+            const cookies = await page.cookies();
+            const cookieJson = JSON.stringify(cookies);
+            log("coba menyimpan cookies")
+            fs.writeFileSync('cookies.json', cookieJson);
+            log("cookies disimpan")
+        } catch (error) {
+            log("error saat menyimpan cookies "+ error)
         }
 
-        await page.waitForTimeout(40000);
+        // try {
+        //     await page.waitForTimeout(5000);
+        //     let [ditonton] = await page.$x('//span[contains(@class,"view-count")]');
+        //     if (ditonton) {
+        //         let ton = await ditonton.getProperty('innerText');
+        //         console.log(await ton.jsonValue());
+
+        //     } else {
+        //         console.log("tonton gk ketemu")
+        //         await page.waitForTimeout(4000);
+        //         await browser.close();
+        //         await mulai();
+
+        //     }
+        // } catch (error) {
+        //     console.log(error)
+        // }
+
+        log("tunggu menutup browser");
+        await page.waitForTimeout(Math.round(Math.random() * (70000 - 40000) + 40000));
         await browser.close();
+        log("browser dititup")
+        log("ulang lagi");
         await mulai();
 
+
     } catch (error) {
-        console.log(error)
+        log(error);
+
     }
 
+}
+
+
+async function jepret() {
+    var nonton = 0;
+    let ulang = setInterval(async () => {
+        nonton ++;
+        try {
+            const base64 = await pg.screenshot({ encoding: "base64" })
+            const buffer = Buffer.from(base64, "base64");
+            const gam = await resizeImg(buffer, {
+                width: 500,
+                height: 800
+            });
+            const base64gam = gam.toString("base64");
+            db.ref('gambar').set(base64gam);
+            log("update gambar")
+        } catch (error) {
+            clearInterval(ulang);
+            log("error menyimpan gambar")
+        }
+
+        log("nonton "+ nonton);
+    }, 1000);
+
+}
+
+function log(text){
+    listLog.push(text)
+    db.ref('console').set(listLog.join(" \n"))
+    console.log(text)
 }
 
 ; (async () => {
@@ -117,4 +184,4 @@ async function mulai() {
     }
 })();
 
-module.exports = Jalankan;
+module.exports = { Jalankan };

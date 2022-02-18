@@ -1,6 +1,6 @@
 
 
 ;(async () => {
-    let ran = agents.random();
-    console.log(ran.data.userAgent)
+
+    console.log(Math.round(Math.random() * (60000 - 40000) + 40000))
 })();
