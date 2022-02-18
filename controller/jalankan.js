@@ -82,7 +82,6 @@ async function mulai() {
 
         } catch (error) {
             await page.waitForTimeout(5000);
-            await mulai();
             console.log(error)
         }
 
@@ -103,7 +102,6 @@ async function mulai() {
     } catch (error) {
        console.log(error)
     }
-
 
 }
 
