@@ -102,7 +102,7 @@ async function mulai() {
 
     } catch (error) {
         console.log(error);
-        await pg.waitForTimeout(5000);
+        // await pg.waitForTimeout(5000);
         await mulai();
     }
 
