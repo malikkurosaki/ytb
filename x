@@ -73,7 +73,7 @@ double() {
     server-status) $login -t "cd /root/makuro/ytb && source ~/.nvm/nvm.sh && pm2 status" ;;
     server-restart) $login -t "cd /root/makuro/ytb && source ~/.nvm/nvm.sh && pm2 restart all " ;;
     server-log) $login -t "cd /root/makuro/ytb && source ~/.nvm/nvm.sh && pm2 logs" ;;
-    server-stop) $login -t "cd /root/makuro/ytb && source ~/.nvm/nvm.sh && pm2 stop ytb" ;;
+    server-stop) $login -t "cd /root/makuro/ytb && source ~/.nvm/nvm.sh && pm2 stop all" ;;
     server-delete) $login -t "cd /root/makuro/ytb && source ~/.nvm/nvm.sh && pm2 delete ytb" ;;
     *) echo "[command] [param]" ;;
     esac
