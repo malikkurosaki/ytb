@@ -27,12 +27,16 @@ const listPage = []
 var pg;
 
 
+
 async function mulai() {
     try {
 
         // let proxy = await fetchOne();
         const browser = await puppeteer.launch({
-            headless: false,
+            headless: true,
+            ignoreDefaultArgs: [
+                "--mute-audio",
+            ],
             args: [
                 '--no-sandbox',
                 '--disable-setuid-sandbox',
@@ -52,7 +56,9 @@ async function mulai() {
                 height: 800
             }
         });
-        //await browser.createIncognitoBrowserContext();
+        
+        await browser.createIncognitoBrowserContext();
+        /**@type {puppeteer.Page} */
         let page = (await browser.pages())[0];
 
         try {
@@ -60,6 +66,7 @@ async function mulai() {
             if (cookie) {
                 const deserializedCookies = JSON.parse(cookie);
                 await page.setCookie(...deserializedCookies);
+                console.log("set cookies");
             }
         } catch (error) {
             console.log(error)
@@ -69,6 +76,8 @@ async function mulai() {
         
         try {
             await page.goto("https://www.youtube.com/watch?v=yb0uyxFLu3Y");
+            console.log("mulai");
+
         } catch (error) {
             await page.waitForTimeout(5000);
             await mulai();
@@ -78,6 +87,7 @@ async function mulai() {
         const cookies = await page.cookies();
         const cookieJson = JSON.stringify(cookies);
         fs.writeFileSync('cookies.json', cookieJson);
+        console.log("cookies saved");
         pg = page;
 
         await page.waitForTimeout(40000);

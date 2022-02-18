@@ -31,7 +31,6 @@ push() {
     git push origin main -f
 }
 
-
 npm() {
     case $2 in
     init) npmInit ;;
@@ -46,9 +45,16 @@ single() {
     esac
 }
 
+login(){
+    sshpass -p "gg123@#$" ssh -o StrictHostKeyChecking=no root@47.250.56.127
+}
+
 double() {
     case "$1$2" in
+    local-run) nodemon server.js --ignore cookies.json ;;
     git-push) push ;;
+    server-login) login -t 'cd /root/makuro' ;;
+    server-ls) login -t "cd /root/makuro/ytb && ls" ;;
     *) echo "[command] [param]" ;;
     esac
 }

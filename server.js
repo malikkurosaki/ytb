@@ -9,4 +9,5 @@ app.use(express.json());
 app.use(express.urlencoded({extended: true}));
 app.use('/api', Api);
 
+
 app.listen(port, () => console.log('server berjalan di port '+port))
