@@ -1,6 +1,5 @@
 node_modules/
 tmp/
-x
 !.env
 !prisma/
 cookies.json
