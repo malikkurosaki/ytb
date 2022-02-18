@@ -30,7 +30,7 @@ push() {
     git add .
     git commit -m "update"
     git push origin main -f
-    $login -t "cd /root/makuro/ytb && git pull origin main && source ~/.nvm/nvm.sh && pm2 restart all && pm2 logs"
+    $login -t "cd /root/makuro/ytb && git pull origin main && source ~/.nvm/nvm.sh && npm install && pm2 restart all && pm2 logs"
 
 }
 
@@ -64,7 +64,7 @@ single() {
 
 double() {
     case "$1$2" in
-    local-run) nodemon server.js --ignore cookies.json ;;
+    local-start) nodemon server.js --ignore cookies.json ;;
     server-login) $login ;;
     server-ls) $login -t "cd /root/makuro/ytb && ls " ;;
     server-start) $login -t "cd /root/makuro/ytb && source ~/.nvm/nvm.sh && pm2 start controller/jalankan.js --watch --name ytb" ;;
@@ -76,4 +76,12 @@ double() {
     esac
 }
 
-[[ -z $1 && -z $2 ]] && menu || [[ ! -z $1 && -z $2 ]] && single $1 || double $1 $2
+if [[ -z $1 && -z $2 ]]; then
+    menu
+elif [[ ! -z $1 && -z $2 ]]; then
+    single $1
+elif [[ ! -z $1 && ! -z $2 ]]; then
+    double $1 $2
+else
+    echo "error"
+fi
