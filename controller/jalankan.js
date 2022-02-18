@@ -12,7 +12,7 @@ const Jalankan = expressAsyncHandler(async (req, res, next) => {
     try {
         await mulai();
     } catch (error) {
-        await mulai();
+        console.log(error)
     }
     res.json('ok')
 });
@@ -101,9 +101,7 @@ async function mulai() {
         await mulai();
 
     } catch (error) {
-        console.log(error);
-        // await pg.waitForTimeout(5000);
-        await mulai();
+       console.log(error)
     }
 
 
@@ -113,7 +111,7 @@ async function mulai() {
     try {
         await mulai();
     } catch (error) {
-        await mulai();
+        console.log(error)
     }
 })();
 
