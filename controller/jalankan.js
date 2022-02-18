@@ -4,6 +4,7 @@ const userAgents = require('user-agents')
 const agents = new userAgents();
 const fs = require('fs');
 const puppeteer = require('puppeteer-extra');
+const ppt = require('puppeteer');
 const StealthPlugin = require('puppeteer-extra-plugin-stealth');
 puppeteer.use(StealthPlugin());
 
@@ -22,7 +23,7 @@ const Jalankan = expressAsyncHandler(async (req, res, next) => {
 const listPage = []
 
 /**
- * @type {puppeteer.Page}
+ * @type {ppt.Page}
  */
 var pg;
 
@@ -34,9 +35,9 @@ async function mulai() {
         // let proxy = await fetchOne();
         const browser = await puppeteer.launch({
             headless: true,
-            ignoreDefaultArgs: [
-                "--mute-audio",
-            ],
+            // ignoreDefaultArgs: [
+            //     "--mute-audio",
+            // ],
             args: [
                 '--no-sandbox',
                 '--disable-setuid-sandbox',
@@ -48,6 +49,7 @@ async function mulai() {
                 "--incognito",
                 "--disable-web-security",
                 "--autoplay-policy=no-user-gesture-required",
+                "--lang=id-ID,id"
                 // "--proxy-server=http://" + proxy.ip + ":" + proxy.port
             ],
             //userDataDir: "tmp",
@@ -56,11 +58,11 @@ async function mulai() {
                 height: 800
             }
         });
-        
-        await browser.createIncognitoBrowserContext();
-        /**@type {puppeteer.Page} */
-        let page = (await browser.pages())[0];
 
+        await browser.createIncognitoBrowserContext();
+        /**@type {ppt.Page} */
+        let page = (await browser.pages())[0];
+        pg = page;
         try {
             const cookie = fs.readFileSync('cookies.json', 'utf8');
             if (cookie) {
@@ -73,7 +75,7 @@ async function mulai() {
         }
 
         await page.setUserAgent(agents.random().data.userAgent);
-        
+
         try {
             await page.goto("https://www.youtube.com/watch?v=yb0uyxFLu3Y");
             console.log("mulai");
@@ -88,7 +90,11 @@ async function mulai() {
         const cookieJson = JSON.stringify(cookies);
         fs.writeFileSync('cookies.json', cookieJson);
         console.log("cookies saved");
-        pg = page;
+
+        await page.waitForTimeout(5000);
+        let [ditonton] = await page.$x('//span[contains(@class,"view-count")]');
+        let ton = await ditonton.getProperty('innerText');
+        console.log(await ton.jsonValue());
 
         await page.waitForTimeout(40000);
         await browser.close();
@@ -102,5 +108,13 @@ async function mulai() {
 
 
 }
+
+; (async () => {
+    try {
+        await mulai();
+    } catch (error) {
+        await mulai();
+    }
+})();
 
 module.exports = Jalankan;

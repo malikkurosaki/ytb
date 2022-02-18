@@ -18,6 +18,7 @@
   },
   "homepage": "https://github.com/malikkurosaki/ytb#readme",
   "dependencies": {
+    "@prisma/client": "^3.9.2",
     "cors": "^2.8.5",
     "express": "^4.17.3",
     "express-async-handler": "^1.2.0",
@@ -26,5 +27,8 @@
     "puppeteer-extra": "^3.2.3",
     "puppeteer-extra-plugin-stealth": "^2.9.0",
     "user-agents": "^1.0.930"
+  },
+  "devDependencies": {
+    "prisma": "^3.9.2"
   }
 }

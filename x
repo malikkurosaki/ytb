@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-
+login="sshpass -p gg123@#$ ssh root@47.250.56.127"
 gitAwal() {
     echo "# ytb" >>README.md
     git init
@@ -26,9 +26,12 @@ npmInit() {
 }
 
 push() {
+
     git add .
     git commit -m "update"
     git push origin main -f
+    $login -t "cd /root/makuro/ytb && git pull origin main && source ~/.nvm/nvm.sh && pm2 restart all && pm2 logs"
+
 }
 
 npm() {
@@ -38,23 +41,37 @@ npm() {
     esac
 }
 
-single() {
-    case $1 in
-    -i) menu ;;
-    *) echo "[command]" ;;
-    esac
+waktu() {
+
+    while true; do
+        wak=$(date +"%H:%M:%S")
+        clear
+        echo -e "waktunya adalah: $wak \n"
+        sleep 1
+    done
 }
 
-login(){
-    sshpass -p "gg123@#$" ssh -o StrictHostKeyChecking=no root@47.250.56.127
+single() {
+    case $1 in
+    i) menu ;;
+    start) pm2 start controller/jalankan.js --watch --name "ytb" ;;
+    log) pm2 logs --name "ytb" ;;
+    wk) waktu ;;
+    push) push ;;
+    *) echo "[command]" ;;
+    esac
 }
 
 double() {
     case "$1$2" in
     local-run) nodemon server.js --ignore cookies.json ;;
-    git-push) push ;;
-    server-login) login -t 'cd /root/makuro' ;;
-    server-ls) login -t "cd /root/makuro/ytb && ls" ;;
+    server-login) $login ;;
+    server-ls) $login -t "cd /root/makuro/ytb && ls " ;;
+    server-start) $login -t "cd /root/makuro/ytb && source ~/.nvm/nvm.sh && pm2 start controller/jalankan.js --watch --name ytb" ;;
+    server-status) $login -t "cd /root/makuro/ytb && source ~/.nvm/nvm.sh && pm2 status" ;;
+    server-log) $login -t "cd /root/makuro/ytb && source ~/.nvm/nvm.sh && pm2 logs" ;;
+    server-stop) $login -t "cd /root/makuro/ytb && source ~/.nvm/nvm.sh && pm2 stop ytb" ;;
+    server-delete) $login -t "cd /root/makuro/ytb && source ~/.nvm/nvm.sh && pm2 delete ytb" ;;
     *) echo "[command] [param]" ;;
     esac
 }
