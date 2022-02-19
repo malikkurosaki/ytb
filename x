@@ -30,7 +30,7 @@ push() {
     git add .
     git commit -m "update"
     git push origin main -f
-    $login -t "cd /root/makuro/ytb && git pull origin main && source ~/.nvm/nvm.sh && npm install "
+    $login -t "cd /root/makuro/ytb && git pull origin main && source ~/.nvm/nvm.sh && npm install && pm2 stop all && pm2 restart all"
 
 }
 
