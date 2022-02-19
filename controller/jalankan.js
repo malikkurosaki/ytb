@@ -133,20 +133,19 @@ async function mulai() {
             log(" error ambil gambar => " + error)
         }
 
-        log("coba mendapatkan cookies")
-        const cookies = await page.cookies();
-        const cookieJson = JSON.stringify(cookies);
-        log("coba menyimpan cookies")
-        fs.writeFileSync('cookies.json', cookieJson);
-        log("cookies disimpan")
-
-
         await page.waitForTimeout(Math.round(Math.random() * (70000 - 40000) + 40000));
 
         // log("coba mengembil cookies");
         // const cookies = await page.cookies();
         // log("cookies berhasil diambil", cookies)
         // endb.set("cookies", cookies);
+
+        log("coba mendapatkan cookies")
+        const cookies = await page.cookies();
+        const cookieJson = JSON.stringify(cookies);
+        log("coba menyimpan cookies")
+        fs.writeFileSync('cookies.json', cookieJson);
+        log("cookies disimpan")
 
         log("ctutup lihat");
         await browser.close();
