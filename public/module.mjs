@@ -28,3 +28,9 @@ onValue(logRef, (snapshot) => {
   document.getElementById("log").innerHTML = data.split("\n").join("</br>");
 });
 
+const percobaanRef = ref(db, 'percobaan');
+onValue(percobaanRef, (snapshot) => {
+  const data = snapshot.val();
+  document.getElementById("percobaan").innerHTML = data;
+});
+
