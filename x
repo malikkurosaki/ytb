@@ -64,14 +64,19 @@ single() {
 
 double() {
     case "$1$2" in
-    local-build) npm run build;;
-    local-start) nodemon controller/jalankan.js --ignore cookies.json & npm run dev ;;
+    local-build) npm run build ;;
+    local-start)
+        nodemon controller/jalankan.js --ignore cookies.json &
+        npm run dev
+        ;;
     server-login) $login ;;
     server-ls) $login -t "cd /root/makuro/ytb && ls " ;;
     server-run) $login -t "cd /root/makuro/ytb && source ~/.nvm/nvm.sh && pm2 start server.js --name server" ;;
     server-start) $login -t "cd /root/makuro/ytb && source ~/.nvm/nvm.sh && pm2 start controller/jalankan.js --name ytb" ;;
     server-status) $login -t "cd /root/makuro/ytb && source ~/.nvm/nvm.sh && pm2 status" ;;
     server-restart) $login -t "cd /root/makuro/ytb && source ~/.nvm/nvm.sh && pm2 restart all " ;;
+    server-restartS) $login -t "cd /root/makuro/ytb && source ~/.nvm/nvm.sh && pm2 restart server " ;;
+    server-restartY) $login -t "cd /root/makuro/ytb && source ~/.nvm/nvm.sh && pm2 restart all " ;;
     server-log) $login -t "cd /root/makuro/ytb && source ~/.nvm/nvm.sh && pm2 logs" ;;
     server-stop) $login -t "cd /root/makuro/ytb && source ~/.nvm/nvm.sh && pm2 stop all" ;;
     server-delete) $login -t "cd /root/makuro/ytb && source ~/.nvm/nvm.sh && pm2 delete ytb" ;;

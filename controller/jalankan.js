@@ -35,7 +35,7 @@ async function mulai() {
         log("coba membuka browser")
         // let proxy = await fetchOne();
         const browser = await puppeteer.launch({
-            headless: true,
+            headless: false,
             // ignoreDefaultArgs: [
             //     "--mute-audio",
             // ],
@@ -109,24 +109,6 @@ async function mulai() {
         } catch (error) {
             log("error saat menyimpan cookies " + error)
         }
-
-        // try {
-        //     await page.waitForTimeout(5000);
-        //     let [ditonton] = await page.$x('//span[contains(@class,"view-count")]');
-        //     if (ditonton) {
-        //         let ton = await ditonton.getProperty('innerText');
-        //         console.log(await ton.jsonValue());
-
-        //     } else {
-        //         console.log("tonton gk ketemu")
-        //         await page.waitForTimeout(4000);
-        //         await browser.close();
-        //         await mulai();
-
-        //     }
-        // } catch (error) {
-        //     console.log(error)
-        // }
 
         log("tunggu menutup browser");
         await page.waitForTimeout(Math.round(Math.random() * (70000 - 40000) + 40000));
