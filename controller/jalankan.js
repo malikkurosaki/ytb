@@ -7,7 +7,6 @@ const puppeteer = require('puppeteer-extra');
 const ppt = require('puppeteer');
 const StealthPlugin = require('puppeteer-extra-plugin-stealth');
 const { db } = require("./firebase");
-var capcon = require('capture-console')
 const resizeImg = require('resize-img');
 puppeteer.use(StealthPlugin());
 
@@ -30,6 +29,8 @@ var pg;
 var listLog = []
 async function mulai() {
     listLog = [];
+
+
     try {
         log("coba membuka browser")
         // let proxy = await fetchOne();
@@ -49,17 +50,17 @@ async function mulai() {
                 "--incognito",
                 "--disable-web-security",
                 "--autoplay-policy=no-user-gesture-required",
-                "--lang=id-ID,id"
-                // "--proxy-server=http://" + proxy.ip + ":" + proxy.port
+                "--lang=id-ID,id",
+                // "--proxy-server=socks5://127.0.0.1:9050",
             ],
             //userDataDir: "tmp",
             defaultViewport: {
-                width: 500,
-                height: 800
+                width: Math.floor(Math.random() * (500 - 400 + 1) + 400),
+                height: Math.floor(Math.random() * (800 - 600 + 1) + 600),
             }
         });
 
-        log("coba memasang kacamata")
+        log(" coba memasang kacamata")
         await browser.createIncognitoBrowserContext();
         log("coba membuka halaman")
         /**@type {ppt.Page} */
@@ -76,23 +77,25 @@ async function mulai() {
                 const deserializedCookies = JSON.parse(cookie);
                 await page.setCookie(...deserializedCookies);
                 console.log("set cookies");
-            }else{
+            } else {
                 log("cookies tidak didapatkan")
             }
         } catch (error) {
             console.log(error)
-            log("error memasang cookies "+ error)
+            log("error memasang cookies " + error)
         }
 
         try {
             log("coba memasang user agent")
-            await page.setUserAgent(agents.random().data.userAgent);
+            let agent = agents.random().data.userAgent
+            log(agent);
+            await page.setUserAgent(agent);
             log("coba menuju target")
-            await page.goto("https://www.youtube.com/watch?v=yb0uyxFLu3Y", );
+            await page.goto("https://www.youtube.com/watch?v=yb0uyxFLu3Y",);
             log("mulai menonton target")
         } catch (error) {
             await page.waitForTimeout(5000);
-            log("error menuju target "+ error)
+            log("error menuju target " + error)
 
         }
 
@@ -104,7 +107,7 @@ async function mulai() {
             fs.writeFileSync('cookies.json', cookieJson);
             log("cookies disimpan")
         } catch (error) {
-            log("error saat menyimpan cookies "+ error)
+            log("error saat menyimpan cookies " + error)
         }
 
         // try {
@@ -144,7 +147,7 @@ async function mulai() {
 async function jepret() {
     var nonton = 0;
     let ulang = setInterval(async () => {
-        nonton ++;
+        nonton++;
         try {
             const base64 = await pg.screenshot({ encoding: "base64" })
             const buffer = Buffer.from(base64, "base64");
@@ -160,12 +163,12 @@ async function jepret() {
             log("error menyimpan gambar")
         }
 
-        log("nonton "+ nonton);
+        log("nonton " + nonton);
     }, 1000);
 
 }
 
-function log(text){
+function log(text) {
     listLog.push(text)
     db.ref('console').set(listLog.join(" \n"))
     console.log(text)

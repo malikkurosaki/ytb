@@ -1,12 +1,14 @@
 import { initializeApp } from 'firebase/app';
 import { getDatabase, set, ref, child, onValue } from 'firebase/database';
-require('bootstrap/dist/js/bootstrap.bundle.min');
-const $ = require('jquery');
+import 'bootstrap/dist/css/bootstrap.min.css';
+import 'bootstrap/dist/js/bootstrap.bundle.min';
+import $ from 'jquery';
+
 
 let body = $(document.body).html('<div><H1>Server</H1></div>');
 let conten = $('<div class="d-flex flex-row "></div>');
 let gambar = $(`<div class="col-6"></div>`);
-let log = $(`<div class="col-6"></div>`);
+let log = $(`<div style="height:700px; overflow: scroll;" class="col-6"></div>`);
 
 body.append(conten);
 conten.append(gambar);

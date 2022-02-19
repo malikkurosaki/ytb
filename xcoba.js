@@ -1,6 +1,8 @@
 
+const { generateProxy } = require("@wonoly/proxy-geneerator");
 
 ;(async () => {
-
-    console.log(Math.round(Math.random() * (60000 - 40000) + 40000))
+    var proxy = await generateProxy();
+    console.log(proxy)
+    
 })();

@@ -1,6 +1,5 @@
 const path = require('path');
 const webpack = require('webpack');
-
 module.exports = {
     // The entry point file described above
     entry: './src/index.js',
@@ -12,6 +11,12 @@ module.exports = {
     // Optional and for development only. This provides the ability to
     // map the built code back to the original source format when debugging.
     devtool: 'eval-source-map',
+    // target: "node",
+    // mode: "production",
+    externals: {
+        bufferutil: "bufferutil",
+        "utf-8-validate": "utf-8-validate",
+    },
     module: {
         rules: [
             {

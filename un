@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+
+
+npm un @babel/core @babel/plugin-transform-object-assign @babel/preset-env babel-loader webpack-remove-debug
