@@ -35,7 +35,7 @@ async function mulai() {
         log("coba membuka browser")
         // let proxy = await fetchOne();
         const browser = await puppeteer.launch({
-            headless: false,
+            headless: true,
             // ignoreDefaultArgs: [
             //     "--mute-audio",
             // ],
