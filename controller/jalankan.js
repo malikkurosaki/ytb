@@ -10,6 +10,7 @@ const { db } = require("./firebase");
 const resizeImg = require('resize-img');
 puppeteer.use(StealthPlugin());
 
+var percobaan = 0;
 
 const Jalankan = expressAsyncHandler(async (req, res, next) => {
     try {
@@ -28,9 +29,9 @@ var pg;
 
 var listLog = []
 async function mulai() {
+    percobaan ++;
+    log("percobaan " + percobaan)
     listLog = [];
-
-
     try {
         log("coba membuka browser")
         // let proxy = await fetchOne();
