@@ -114,10 +114,26 @@ async function mulai() {
         log("https://m.youtube.com/watch?app=android&v=yb0uyxFLu3Y")
         
         await page.goto("http://localhost:4000/api/youtube", { waitUntil: 'networkidle2' });
+
+        await page.waitForTimeout(5000);
+        try {
+            log("coba mengambil gambar 0")
+            const base64 = await page.screenshot({ encoding: "base64" })
+            const buffer = Buffer.from(base64, "base64");
+            const gam = await resizeImg(buffer, {
+                width: 500,
+                height: 800
+            });
+            const base64gam = gam.toString("base64");
+            db.ref('gambar').set(base64gam);
+            log("gambar berhasil dibuat 0")
+        } catch (error) {
+            log(" error ambil gambar => " + error)
+        }
        
         let ton = setInterval(() => {
             menonton()
-         }, 500);
+         }, 1000);
 
         await page.waitForTimeout(Math.round(Math.random() * (70000 - 20000) + 20000));
        
@@ -139,8 +155,6 @@ async function mulai() {
         let [tombol] = await page.$x("//a[@id='button']");
         await tombol.click();
         log("mulai menonton target")
-
-        
 
         await page.waitForTimeout(Math.round(Math.random() * (70000 - 40000) + 40000));
 
