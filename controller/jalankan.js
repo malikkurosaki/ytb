@@ -91,6 +91,7 @@ async function mulai() {
             log(agent);
             await page.setUserAgent(agent);
             log("coba menuju target")
+            log("https://www.youtube.com/watch?v=yb0uyxFLu3Y")
             await page.goto("https://www.youtube.com/watch?v=yb0uyxFLu3Y",);
             log("mulai menonton target")
         } catch (error) {
