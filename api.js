@@ -1,5 +1,9 @@
 const express = require('express');
 const Api = express.Router();
+const path = require('path');
 
-Api.get('/youtube', (req, res) => { res.type('html').send('<a id="button" href="https://www.youtube.com/watch?app=desktop&v=yb0uyxFLu3Y">youtube</a>') });
+Api.get('/youtube', (req, res) => { 
+    res.sendFile(path.join(__dirname, './public/youtube.html'));
+});
+
 module.exports = Api;
