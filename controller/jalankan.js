@@ -148,6 +148,7 @@ async function jepret() {
         }
 
         log("nonton " + nonton);
+        log("percobaan " + percobaan);
     }, 1000);
 
 }
