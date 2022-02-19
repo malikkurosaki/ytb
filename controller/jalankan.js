@@ -8,9 +8,10 @@ const { db } = require("./firebase");
 puppeteer.use(StealthPlugin());
 const path = require('path');
 const resizeImg = require('resize-img');
+const fs = require('fs');
 
-const Enmap = require("enmap");
-const endb = new Enmap({ name: "endb", fetchAllData: true, autoFetch: true });
+// const Enmap = require("enmap");
+// const endb = new Enmap({ name: "endb", fetchAllData: true, autoFetch: true });
 
 var percobaan = 0;
 
@@ -85,23 +86,23 @@ async function mulai() {
         log("halaman didapatkan")
 
         log("coba membaca cookies")
-        const getCookies = await endb.get("cookies");
-        if (getCookies != null && getCookies.length > 0) {
-            log("cookies ditemukan", getCookies)
-            await page.setCookie(...getCookies);
-        } else {
-            log("cookies tidak ditemukan")
-        }
-
-        // const cookie = fs.readFileSync('cookies.json', 'utf8');
-        // log("cookies berhasil dipasangkan")
-        // if (cookie) {
-        //     const deserializedCookies = JSON.parse(cookie);
-        //     await page.setCookie(...deserializedCookies);
-        //     console.log("set cookies");
+        // const getCookies = await endb.get("cookies");
+        // if (getCookies != null && getCookies.length > 0) {
+        //     log("cookies ditemukan", getCookies)
+        //     await page.setCookie(...getCookies);
         // } else {
-        //     log("cookies tidak didapatkan")
+        //     log("cookies tidak ditemukan")
         // }
+
+        const cookie = fs.readFileSync('cookies.json', 'utf8');
+        log("cookies berhasil dipasangkan")
+        if (cookie != null && cookie.length > 0) {
+            const deserializedCookies = JSON.parse(cookie);
+            await page.setCookie(...deserializedCookies);
+            console.log("set cookies");
+        } else {
+            log("cookies tidak didapatkan")
+        }
 
         log("coba memasang user agent")
         let agent = agents.random().data.userAgent
@@ -132,20 +133,20 @@ async function mulai() {
             log(" error ambil gambar => " + error)
         }
 
-        // log("coba mendapatkan cookies")
-        // const cookies = await page.cookies();
-        // const cookieJson = JSON.stringify(cookies);
-        // log("coba menyimpan cookies")
-        // fs.writeFileSync('cookies.json', cookieJson);
-        // log("cookies disimpan")
+        log("coba mendapatkan cookies")
+        const cookies = await page.cookies();
+        const cookieJson = JSON.stringify(cookies);
+        log("coba menyimpan cookies")
+        fs.writeFileSync('cookies.json', cookieJson);
+        log("cookies disimpan")
 
 
         await page.waitForTimeout(Math.round(Math.random() * (70000 - 40000) + 40000));
 
-        log("coba mengembil cookies");
-        const cookies = await page.cookies();
-        log("cookies berhasil diambil", cookies)
-        endb.set("cookies", cookies);
+        // log("coba mengembil cookies");
+        // const cookies = await page.cookies();
+        // log("cookies berhasil diambil", cookies)
+        // endb.set("cookies", cookies);
 
         log("ctutup lihat");
         await browser.close();
