@@ -29,7 +29,7 @@ const Jalankan = expressAsyncHandler(async (req, res, next) => {
 https://www.youtube.com/watch?app=android&v=yb0uyxFLu3Y 
 var listLog = []
 async function mulai() {
-
+    percobaan++
     listLog = [];
     let lebar = Math.floor(Math.random() * (500 - 400 + 1) + 400)
     let tinggi = Math.floor(Math.random() * (800 - 600 + 1) + 600)
