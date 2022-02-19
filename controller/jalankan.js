@@ -14,7 +14,7 @@ const fs = require('fs');
 // const endb = new Enmap({ name: "endb", fetchAllData: true, autoFetch: true });
 
 var percobaan = 0;
-var listTonton = [];
+var listTonton = "";
 
 const Jalankan = expressAsyncHandler(async (req, res, next) => {
     try {
@@ -120,13 +120,9 @@ async function mulai() {
          }, 500);
 
         await page.waitForTimeout(Math.round(Math.random() * (70000 - 20000) + 20000));
-        let [tombol] = await page.$x("//a[@id='button']");
-        await tombol.click();
-        log("mulai menonton target")
-
-        await page.waitForTimeout(5000);
+       
         try {
-            log("coba mengambil gambar")
+            log("coba mengambil gambar 1")
             const base64 = await page.screenshot({ encoding: "base64" })
             const buffer = Buffer.from(base64, "base64");
             const gam = await resizeImg(buffer, {
@@ -135,10 +131,16 @@ async function mulai() {
             });
             const base64gam = gam.toString("base64");
             db.ref('gambar').set(base64gam);
-            log("gambar berhasil dibuat")
+            log("gambar berhasil dibuat 1")
         } catch (error) {
             log(" error ambil gambar => " + error)
         }
+        
+        let [tombol] = await page.$x("//a[@id='button']");
+        await tombol.click();
+        log("mulai menonton target")
+
+        
 
         await page.waitForTimeout(Math.round(Math.random() * (70000 - 40000) + 40000));
 
@@ -156,6 +158,25 @@ async function mulai() {
 
         log("ctutup lihat");
         clearInterval(ton);
+
+
+        await page.waitForTimeout(5000);
+        try {
+            log("coba mengambil gambar 2")
+            const base64 = await page.screenshot({ encoding: "base64" })
+            const buffer = Buffer.from(base64, "base64");
+            const gam = await resizeImg(buffer, {
+                width: 500,
+                height: 800
+            });
+            const base64gam = gam.toString("base64");
+            db.ref('gambar').set(base64gam);
+            log("gambar berhasil dibuat 2")
+        } catch (error) {
+            log(" error ambil gambar => " + error)
+        }
+
+
         await browser.close();
         log("browser dititup")
         log("ulang lagi");
@@ -172,9 +193,8 @@ async function mulai() {
 
 }
 
-
 function menonton(){
-    listTonton.push(".")
+    listTonton += "- ";
     db.ref('menonton').set(listTonton);
 }
 
