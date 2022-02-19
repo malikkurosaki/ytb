@@ -34,3 +34,9 @@ onValue(percobaanRef, (snapshot) => {
   document.getElementById("percobaan").innerHTML = data;
 });
 
+const menontonRef = ref(db, 'percobaan');
+onValue(menontonRef, (snapshot) => {
+  const data = snapshot.val();
+  document.getElementById("menonton").innerHTML = data.split("\n").join("</br>");
+});
+

@@ -14,6 +14,7 @@ const fs = require('fs');
 // const endb = new Enmap({ name: "endb", fetchAllData: true, autoFetch: true });
 
 var percobaan = 0;
+var listTonton = [];
 
 const Jalankan = expressAsyncHandler(async (req, res, next) => {
     try {
@@ -29,6 +30,7 @@ const Jalankan = expressAsyncHandler(async (req, res, next) => {
 https://www.youtube.com/watch?app=android&v=yb0uyxFLu3Y 
 var listLog = []
 async function mulai() {
+    listTonton = []
     percobaan++
     listLog = [];
     let lebar = Math.floor(Math.random() * (500 - 400 + 1) + 400)
@@ -110,8 +112,13 @@ async function mulai() {
         await page.setUserAgent(agent);
         log("coba menuju target")
         log("https://m.youtube.com/watch?app=android&v=yb0uyxFLu3Y")
-        // await page.goto("https://www.youtube.com/embed/yb0uyxFLu3Y",{waitUntil: 'networkidle2'});
+        
         await page.goto("http://localhost:4000/api/youtube", { waitUntil: 'networkidle2' });
+       
+        let ton = setInterval(() => {
+            menonton()
+         }, 500);
+
         await page.waitForTimeout(Math.round(Math.random() * (70000 - 20000) + 20000));
         let [tombol] = await page.$x("//a[@id='button']");
         await tombol.click();
@@ -148,6 +155,7 @@ async function mulai() {
         log("cookies disimpan")
 
         log("ctutup lihat");
+        clearInterval(ton);
         await browser.close();
         log("browser dititup")
         log("ulang lagi");
@@ -164,6 +172,11 @@ async function mulai() {
 
 }
 
+
+function menonton(){
+    listTonton.push(".")
+    db.ref('menonton').set(listTonton);
+}
 
 function log(text) {
     listLog.push(text)
