@@ -111,7 +111,7 @@ async function mulai() {
         log(agent);
         await page.setUserAgent(agent);
         log("coba menuju target")
-        log("https://m.youtube.com/watch?app=android&v=yb0uyxFLu3Y")
+        log("menuju halaman local youtube")
         
         await page.goto("http://localhost:4000/api/youtube", { waitUntil: 'networkidle2' });
 
@@ -155,6 +155,7 @@ async function mulai() {
         let [tombol] = await page.$x("//a[@id='button']");
         await tombol.click();
         log("mulai menonton target")
+        log("https://m.youtube.com/watch?app=android&v=yb0uyxFLu3Y")
 
         await page.waitForTimeout(Math.round(Math.random() * (70000 - 40000) + 40000));
 
