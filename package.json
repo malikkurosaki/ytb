@@ -36,6 +36,7 @@
     "puppeteer-extra-plugin-stealth": "^2.9.0",
     "resize-img": "^2.0.0",
     "sass-loader": "^12.6.0",
+    "shelljs": "^0.8.5",
     "socket.io": "^4.4.1",
     "style-loader": "^3.3.1",
     "user-agents": "^1.0.930",
