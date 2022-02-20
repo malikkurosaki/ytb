@@ -9,6 +9,6 @@
 
 const shelljs = require('shelljs');
 
-let s = shelljs.exec('pm2 -v').stdout;
+let s = shelljs.exec('./x').stdout;
 
 console.log(s)
