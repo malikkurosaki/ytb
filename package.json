@@ -10,7 +10,7 @@
   "repository": {
     "type": "git",
     "url": "git+https://github.com/malikkurosaki/ytb.git",
-    "restart": "pm2 restart all"
+    "restart": "npx kill-port 4000 && pm2 stop all && pm2 restart all"
   },
   "keywords": [],
   "author": "",
