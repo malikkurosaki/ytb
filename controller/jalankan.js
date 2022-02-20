@@ -37,7 +37,7 @@ async function mulai() {
     let tinggi = Math.floor(Math.random() * (800 - 600 + 1) + 600)
 
     const browser = await puppeteer.launch({
-        headless: true,
+        headless: false,
         args: [
             '--disable-setuid-sandbox',
             '--disable-infobars',
