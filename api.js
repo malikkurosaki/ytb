@@ -10,7 +10,9 @@ Api.get('/youtube', (req, res) => {
 
 Api.get('/restart', asyncHandler(async (req, res) => {
     let shl = shelljs.exec('pm2 restart all').stdout;
-    res.json(shl)
+
+    let sucess = shl.includes('4000');
+    res.json(sucess)
 }))
 
 module.exports = Api;
